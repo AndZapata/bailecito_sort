@@ -7,50 +7,27 @@
  *
  * Return: Nothing
  */
-void swap(listint_t *left, listint_t *right)
-{
-	listint_t *temp;
-
-	temp = left->prev;
-	if (temp)
-		temp->next = right;
-	right->prev = temp;
-	left->prev = right;
-	left->next = right->next;
-	right->next = left;
-	if (left->next != NULL)
-		left->next->prev = left;
-}
-
-/**
- * insertion_sort_list - Comentario
- *
- * @list: Comentario
- *
- * Return: Nothing
- */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *node;
-	listint_t *head;
 	listint_t *insertion;
 
-	head = *list;
-	node = *list;
-	node = node->next;
-	while (node)
+	insertion = (*list)->next;
+	while (insertion)
 	{
-		insertion = head;
-		while (insertion != node)
+		while (insertion->prev && insertion->n < insertion->prev->n)
 		{
-			if (insertion->n > node->n)
-				swap(node, insertion);
+			insertion->prev->next = insertion->next;
+			if (insertion->next)
+				insertion->next->prev = insertion->prev;
+			insertion->next = insertion->prev;
+			insertion->prev = insertion->prev->prev;
+			insertion->next->prev = insertion;
+			if (!insertion->prev)
+				*list = insertion;
 			else
-			{
-				print_list(*list);
-				insertion = insertion->next;
-			}
+				insertion->prev->next = insertion;
+			print_list(*list);
 		}
-		node = node->next;
+		insertion = insertion->next;
 	}
 }
