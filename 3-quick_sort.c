@@ -1,13 +1,13 @@
 #include "sort.h"
 
-int tokens(int *array, int start, int end, size_t size)
+int tokens(int *array, int init, int last, size_t size)
 {
 	int num, j, tmp;
 	int pivot;
 
-	num = start - 1;
-	pivot = array[end];
-	for (j = start; j <= end - 1; j++)
+	num = init - 1;
+	pivot = array[last];
+	for (j = init; j <= last - 1; j++)
 	{
 		if (array[j] <= pivot)
 		{
@@ -21,25 +21,25 @@ int tokens(int *array, int start, int end, size_t size)
 			}
 		}
 	}
-	if (array[end] < array[num + 1])
+	if (array[last] < array[num + 1])
 	{
-		tmp = array[end];
-		array[end] = array[num + 1];
+		tmp = array[last];
+		array[last] = array[num + 1];
 		array[num + 1] = tmp;
 		print_array(array, size);
 	}
 	return (num + 1);
 }
 
-void iteraciones(int *array, int start, int end, size_t size)
+void iteraciones(int *array, int init, int last, size_t size)
 {
 	int num;
 
-	if (start < end)
+	if (init < last)
 	{
-		num = tokens(array, start, end, size);
-		iteraciones(array, start, num - 1, size);
-		iteraciones(array, num + 1, end, size);
+		num = tokens(array, init, last, size);
+		iteraciones(array, init, num - 1, size);
+		iteraciones(array, num + 1, last, size);
 	}
 }
 
