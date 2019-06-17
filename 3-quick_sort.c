@@ -1,8 +1,8 @@
 #include "sort.h"
 
-ssize_t tokens(int *array, ssize_t start, ssize_t end, size_t size)
+int tokens(int *array, int start, int end, size_t size)
 {
-	ssize_t num, j, tmp;
+	int num, j, tmp;
 	int pivot;
 
 	num = start - 1;
@@ -31,9 +31,9 @@ ssize_t tokens(int *array, ssize_t start, ssize_t end, size_t size)
 	return (num + 1);
 }
 
-void iteraciones(int *array, ssize_t start, ssize_t end, size_t size)
+void iteraciones(int *array, int start, int end, size_t size)
 {
-	ssize_t num;
+	int num;
 
 	if (start < end)
 	{
