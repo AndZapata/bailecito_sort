@@ -1,24 +1,30 @@
 #include "sort.h"
 
 /**
- * shell_sort - Comment
+ * shell_sort - function that sorts an array of integers
+ * in ascending order using the Shell sort algorithm
  *
- * @array: comment
- * @size: Comment
+ * @array: List of integers to be sorted
+ * @size: Lenght of the array
  * Return: Nothing
  */
 void shell_sort(int *array, size_t size)
 {
-	size_t i, j, dif;
+	size_t i, j, n = 1;
 	int temp;
 
-	for (dif = size / 2; dif > 0; dif = (dif - 1) / 3)
+	if (size < 2)
+		return;
+	while (n < size)
+		n = n * 3 + 1;
+	n = (n - 1) / 3;
+	for (; n > 0; n = (n - 1) / 3)
 	{
-		for (i = dif; i < size; i++)
+		for (i = n; i < size; i++)
 		{
 			temp = array[i];
-			for (j = i; j >= dif && array[j - dif] > temp; j = j - dif)
-				array[j] = array[j - dif];
+			for (j = i; j >= n && array[j - n] > temp; j = j - n)
+				array[j] = array[j - n];
 			array[j] = temp;
 		}
 		print_array(array, size);
