@@ -1,37 +1,65 @@
 #include "sort.h"
 
 /**
- * quick_sort - Comment
+ * func_pivot - select the pivot number as lumoto function
  *
- * @array: comment
- * @size: Comment
+ * @array: List of integers to be sorted
+ * @init: First element in the array
+ * @last: Last element in the array
+ * @size: Length of the array
  * Return: Nothing
  */
-
-int Lomuto(int *a, int l, int r, size_t size)
+int func_pivot(int *array, int first, int last, size_t size)
 {
-	int i, j, p, t;
+	int num, j, tmp;
+	int pivot;
 
-	p = a[r];
-	i = l;
-
-	for(j = l; j <= r-1; j++) {
-		if(a[j] <= p) {
-			t = a[j];
-			a[j] = a[i];
-			a[i] = t;
-			i++;
-			print_array(a, size);
+	num = first - 1;
+	pivot = array[last];
+	for (j = first; j <= last - 1; j++)
+	{
+		if (array[j] <= pivot)
+		{
+			num++;
+			if (num != j)
+			{
+				tmp = array[num];
+				array[num] = array[j];
+				array[j] = tmp;
+				print_array(array, size);
+			}
 		}
 	}
-	t = a[i];
-	a[i] = a[r];
-	a[r] = t;
-
-	return i;
-
+	if (array[last] < array[num + 1])
+	{
+		tmp = array[last];
+		array[last] = array[num + 1];
+		array[num + 1] = tmp;
+		print_array(array, size);
+	}
+	return (num + 1);
 }
 
+/**
+ * partition - Function to separates the array in sub arrays to be sorted
+ *
+ * @array: List of integers to be sorted
+ * @first: First element in the selected sub array
+ * @last: Last integer in the selected sub array
+ * @size: lenght of the array
+ * Return: Nothing
+ */
+void partition(int *array, int first, int last, size_t size)
+{
+	int num;
+
+	if (first < last)
+	{
+		num = func_pivot(array, first, last, size);
+		partition(array, first, num - 1, size);
+		partition(array, num + 1, last, size);
+	}
+}
 
 /**
  * quick_sort - Comment
@@ -42,5 +70,7 @@ int Lomuto(int *a, int l, int r, size_t size)
  */
 void quick_sort(int *array, size_t size)
 {
-	Lomuto(array, array[0], array[size], size);
+	if (!array || size < 2)
+		return;
+	partition(array, 0, size - 1, size);
 }
