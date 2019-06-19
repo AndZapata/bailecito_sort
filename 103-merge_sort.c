@@ -1,62 +1,51 @@
 #include "sort.h"
 
-void mergeSort(int i, int j, int a[], int aux[])
+void m_pri(int *a, int *aux, size_t l_i, size_t l_m, size_t r_i, size_t r_m)
 {
+    size_t left = l_i, l_size = l_m - l_i + 1;
+    size_t right = r_i, r_size = r_m - r_i + 1, i = l_i;
 
-    int pointer_left;
-    int pointer_right;
-    int k;
-    int mid;
+    printf("Merging...\n");
+    printf("[left]: ");
+    print_array(a + left, l_size);
+    printf("[right]: ");
+    print_array(a + right, r_size);
 
-    if (j <= i)
+    while (l_i <= l_m && r_i <= r_m)
     {
-        return;
-    }
-    mid = (i + j) / 2;
-
-    mergeSort(i, mid, a, aux);
-    mergeSort(mid + 1, j, a, aux);
-
-    pointer_left = i;
-    pointer_right = mid + 1;
-
-    /*printf("%d\n", pointer_right);*/
-    print_array(a, pointer_right);
-
-    for (k = i; k <= j; k++)
-    {
-        if (pointer_left == mid + 1)
-        {
-            aux[k] = a[pointer_right];
-            pointer_right++;
-        }
-        else if (pointer_right == j + 1)
-        {
-            aux[k] = a[pointer_left];
-            pointer_left++;
-        }
-        else if (a[pointer_left] < a[pointer_right])
-        {
-            aux[k] = a[pointer_left];
-            pointer_left++;
-        }
+        if (a[l_i] <= a[r_i])
+            aux[i++] = a[l_i++];
         else
-        {
-            aux[k] = a[pointer_right];
-            pointer_right++;
-        }
+            aux[i++] = a[r_i++];
     }
+    while (l_i <= l_m)
+        aux[i++] = a[l_i++];
+    while (r_i <= r_m)
+        aux[i++] = a[r_i++];
 
-    for (k = i; k <= j; k++)
+    for (i = left; i <= r_m; i++)
+        a[i] = aux[i];
+
+    printf("[Done]: ");
+    print_array(a + left, l_size + r_size);
+}
+
+void recursive_func(int *array, int *aux, size_t init, size_t max)
+{
+    if (max > init)
     {
-        a[k] = aux[k];
+        recursive_func(array, aux, init, (init + max + 1) / 2 - 1);
+        recursive_func(array, aux, (init + max + 1) / 2, max);
+        m_pri(array, aux, init, (init + max + 1) / 2 - 1,
+              (init + max + 1) / 2, max);
     }
-    
 }
 
 void merge_sort(int *array, size_t size)
 {
     int aux[10000];
 
-    mergeSort(0, (int)size - 1, array, aux);
+    if (!array || size < 2)
+        return;
+    recursive_func(array, aux, 0, size - 1);
 }
