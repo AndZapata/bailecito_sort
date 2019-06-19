@@ -2,8 +2,13 @@
 
 void m_pri(int *a, int *aux, size_t l_i, size_t l_m, size_t r_i, size_t r_m)
 {
-    size_t left = l_i, l_size = l_m - l_i + 1;
-    size_t right = r_i, r_size = r_m - r_i + 1, i = l_i;
+    size_t left, l_size, right, r_size, i;
+
+    left = l_i;
+    l_size = l_m - l_i + 1;
+    right = r_i;
+    r_size = r_m - r_i + 1;
+    i = l_i;
 
     printf("Merging...\n");
     printf("[left]: ");
